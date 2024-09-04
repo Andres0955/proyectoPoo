@@ -1,0 +1,67 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+skinparam classAttributeIconSize 0
+!theme spacelab
+class Restaurante{
+    -numeroMesas: int
+
+    +agregarMesa()
+    +eliminarMesa()
+
+}
+
+class Reserva{
+    -hora: String
+    -fecha: String
+    -mesaAsignada: int
+
+    +getHora()
+    +getFecha()
+    +setHora()
+    +setFecha()
+    +confiramarReserva()
+    +cancelarReserva()
+}
+
+class Mesas{
+    -id: int
+    -capacidad: int
+    -estado: boolean
+
+    +getCapacidad()
+    +getEstado()
+    +setCapacidad()
+    +setEstado()
+    +asignarMesa()
+    +liberarMesa()
+}
+
+class Cliente{
+    -nombre: String
+    -telefono: long
+
+    +getNombre()
+    +getTelefono()
+    +setNombre()
+    +setTelefono()
+    +registrarCliente()
+    +actualizarDatos()
+}
+
+class Recepcionista{
+    -nombre: String
+
+    +getNombre()
+    +setNombre()
+    +registrarReserva()
+    +cancelarReserva()
+    +modificarReserva()
+    +consultarReservas()
+}
+
+Restaurante *-- Mesas
+Reserva o-- Mesas
+Reserva o-- Cliente
+Recepcionista --- Reserva
+
+@enduml

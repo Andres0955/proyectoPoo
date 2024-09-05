@@ -5,6 +5,8 @@ skinparam classAttributeIconSize 0
 class Restaurant{
     -numTables: int
 
+    +getNumTables()
+    +setNumTables()
     +addTable()
     +deleteTable()
 
@@ -26,7 +28,7 @@ class Reservation{
 class Tables{
     -id: int
     -capacity: int
-    -state: boolean
+    -status: boolean
 
     +getCapacity()
     +getState()
@@ -49,6 +51,8 @@ class Customer{
 class Receptionist{
     -name: String
 
+    +getName()
+    +setName()
     +registerReservations()
     +cancelReservations()
     +modifyReservations()

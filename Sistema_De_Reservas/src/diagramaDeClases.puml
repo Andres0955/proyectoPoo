@@ -2,66 +2,62 @@
 'https://plantuml.com/sequence-diagram
 skinparam classAttributeIconSize 0
 !theme spacelab
-class Restaurante{
-    -numeroMesas: int
+class Restaurant{
+    -numTables: int
 
-    +agregarMesa()
-    +eliminarMesa()
+    +addTable()
+    +deleteTable()
 
 }
 
-class Reserva{
-    -hora: String
-    -fecha: String
-    -mesaAsignada: int
+class Reservation{
+    -hour: String
+    -date: String
+    -assignedTable: int
 
-    +getHora()
-    +getFecha()
-    +setHora()
-    +setFecha()
-    +confiramarReserva()
-    +cancelarReserva()
+    +getHour()
+    +getDate()
+    +setHour()
+    +setDate()
+    +confirmReservation()
+    +cancelReservation()
 }
 
-class Mesas{
+class Tables{
     -id: int
-    -capacidad: int
-    -estado: boolean
+    -capacity: int
+    -state: boolean
 
-    +getCapacidad()
-    +getEstado()
-    +setCapacidad()
-    +setEstado()
-    +asignarMesa()
-    +liberarMesa()
+    +getCapacity()
+    +getState()
+    +setCapacity()
+    +setState()
+    +assignedTable()
+    +releaseTable()
 }
 
-class Cliente{
-    -nombre: String
-    -telefono: long
+class Customer{
+    -name: String
+    -phoneNumber: long
 
-    +getNombre()
-    +getTelefono()
-    +setNombre()
-    +setTelefono()
-    +registrarCliente()
-    +actualizarDatos()
+    +getName()
+    +getPhoneNumber()
+    +registerCustomer()
+    +updateData()
 }
 
-class Recepcionista{
-    -nombre: String
+class Receptionist{
+    -name: String
 
-    +getNombre()
-    +setNombre()
-    +registrarReserva()
-    +cancelarReserva()
-    +modificarReserva()
-    +consultarReservas()
+    +registerReservations()
+    +cancelReservations()
+    +modifyReservations()
+    +consulReservations()
 }
 
-Restaurante *-- Mesas
-Reserva o-- Mesas
-Reserva o-- Cliente
-Recepcionista --- Reserva
+Restaurant *-- Tables
+Reservation o-- Tables
+Reservation o-- Customer
+Receptionist --- Reservation
 
 @enduml

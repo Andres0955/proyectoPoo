@@ -2,6 +2,8 @@ package logic;
 
 import igu.*;
 
+import java.util.Vector;
+
 public class Receptionist {
     Interface interface2 = new Interface();
     private String name;
@@ -17,9 +19,17 @@ public class Receptionist {
         interface2.iguRegisterReservation();
     }
 
-    public void cancelReservation(){}
+    public void consultReservationToday(){
+        interface2.iguConsultReservation(Reservation.getReservations(), Restaurant.getDate());
+    }
+
+    public void showAllReservations(){
+        interface2.iguShowReservations(Reservation.getReservations());
+    }
+
+    public void cancelReservation(){
+        interface2.igu
+    }
 
     public void modifyReservation(){}
-
-    public void consultReservation(){}
 }

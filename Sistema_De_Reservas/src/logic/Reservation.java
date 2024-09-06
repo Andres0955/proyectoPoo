@@ -23,48 +23,116 @@ public class Reservation {
     /**
      * Mesa asignada a la reserva.
      */
-    private Tables assignedTable;
+    private int assignedTable;
     /**
      * Lista estática de todas las reservas.
      * Se utiliza para gestionar y almacenar todas las reservas realizadas.
      */
-    private static Vector<Reservation> reservations;
+    private static Vector<Reservation> reservations = new Vector<>();
 
-    public Reservation(String nameCustomer, String hour, String date, Tables assignedTable) {
+    /**
+     * Crea una nueva reserva con la información proporcionada.
+     *
+     * @param nameCustomer El nombre del cliente que hace la reserva.
+     * @param hour La hora de la reserva.
+     * @param date La fecha de la reserva.
+     * @param assignedTable La mesa asignada para la reserva.
+     */
+
+    public Reservation(String nameCustomer, String hour, String date, int assignedTable) {
         this.nameCustomer = nameCustomer;
         this.hour = hour;
         this.date = date;
         this.assignedTable = assignedTable;
         reservations.add(this);
-
+        mostrarReservas();
     }
+    /**
+     * Obtiene la hora de la reserva.
+     *
+     * @return La hora de la reserva.
+     */
 
     public String getHour() {
         return hour;
     }
 
+    /**
+     * Establece la hora de la reserva.
+     *
+     * @param hour La nueva hora de la reserva.
+     */
+
     public void setHour(String hour) {
         this.hour = hour;
     }
+
+    /**
+     * Obtiene la fecha de la reserva.
+     *
+     * @return La fecha de la reserva.
+     */
 
     public String getDate() {
         return date;
     }
 
+    /**
+     * Establece la fecha de la reserva.
+     *
+     * @param date La nueva fecha de la reserva.
+     */
+
     public void setDate(String date) {
         this.date = date;
     }
 
-    public Tables getAssignedTable() {
+    /**
+     * Obtiene el nombre del cliente.
+     * @return El nombre del cliente como una cadena de texto.
+     */
+
+    public String getNameCustomer() {
+        return nameCustomer;
+
+    }
+
+    /**
+     * Obtiene la mesa asignada para la reserva.
+     *
+     * @return La mesa asignada.
+     */
+
+    public int getAssignedTable() {
         return assignedTable;
     }
 
-    public void setAssignedTable(Tables assignedTable){
-        this.assignedTable = assignedTable;
+    public static Vector<Reservation> getReservations(){
+        return reservations;
     }
+
+
+    /**
+     * Confirma la reserva. Este método no está implementado en esta versión.
+     */
 
     public void confirmReservation() {}
 
+    /**
+     * Cancela la reserva. Este método no está implementado en esta versión.
+     */
+
     public void cancelReservation() {}
 
+    /**
+     * Muestra una lista de las reservas.
+     */
+
+    public static void mostrarReservas() {
+        for (Reservation reserva : reservations) {
+            System.out.println("Reserva: " + reserva.nameCustomer + ", Hora: " + reserva.hour +
+                    ", Fecha: " + reserva.date + ", Mesa asignada: " + reserva.assignedTable);
+        }
+
+    }
 }

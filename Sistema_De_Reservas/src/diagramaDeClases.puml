@@ -5,10 +5,8 @@ skinparam classAttributeIconSize 0
 class Restaurant{
     -numTables: int
 
+    +Restaurant(int numTables)
     +getNumTables()
-    +setNumTables()
-    +addTable()
-    +deleteTable()
 
 }
 

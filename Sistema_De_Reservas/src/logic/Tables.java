@@ -1,9 +1,15 @@
-package logica;
+package logic;
 
 public class Tables {
     private int id;
     private int capacity;
     private boolean status;
+
+    public Tables(int id, int capacity){
+        this.id = id;
+        this.capacity = capacity;
+        this.status = true;
+    }
 
     public int getId() {
         return id;
@@ -25,11 +31,12 @@ public class Tables {
         return status;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+
+    public void assignedTable(){
+        this.status = true;
     }
 
-    public void assignedTable(){}
-
-    public void releaseTable(){}
+    public void releaseTable(){
+        this.status = false;
+    }
 }

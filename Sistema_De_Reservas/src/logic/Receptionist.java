@@ -1,6 +1,9 @@
-package logica;
+package logic;
+
+import igu.*;
 
 public class Receptionist {
+    Interface interface2 = new Interface();
     private String name;
 
     public String getName() {
@@ -10,7 +13,9 @@ public class Receptionist {
         this.name = name;
     }
 
-    public void registerReservation(){}
+    public void registerReservation(){
+        interface2.iguRegisterReservation();
+    }
 
     public void cancelReservation(){}
 

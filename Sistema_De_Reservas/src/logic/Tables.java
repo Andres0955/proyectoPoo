@@ -10,7 +10,7 @@ package logic;
  */
 
 public class Tables {
-
+    //Si la mesa esta libre el valor que tendra el atributo status es true, de lo contrario tendra un false.
     /**
      * Identificador único de la mesa.
      */
@@ -96,7 +96,7 @@ public class Tables {
      * </p>
      */
     public void assignedTable(){
-        this.status = true;
+        this.status = false;
     }
 
     /**
@@ -106,6 +106,6 @@ public class Tables {
      * </p>
      */
     public void releaseTable(){
-        this.status = false;
+        this.status = true;
     }
 }

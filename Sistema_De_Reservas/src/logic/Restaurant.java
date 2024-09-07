@@ -15,7 +15,7 @@ public class Restaurant {
     /**
      * Número total de mesas en el restaurante.
      */
-    private int numTables;
+    private static int numTables;
 
     /**
      * Fecha asociada al restaurante (por ejemplo, fecha actual de la reserva).
@@ -41,10 +41,10 @@ public class Restaurant {
      * @param date La fecha asociada al restaurante.
      */
     public Restaurant(int numTables, String date) {
+        this.numTables = numTables;
         this.tables = new Vector<>(numTables);
         this.date = date;
 
-        // Creando mesas rotando la capacidad (2, 4, 6 personas) usando vector
         int[] capacities = {2, 4, 6};
         for (int i = 0; i < numTables; i++) {
             int capacity = capacities[i % 3];
@@ -52,20 +52,51 @@ public class Restaurant {
         }
     }
 
+    /**
+     * Busca una mesa libre que pueda acomodar al número de personas especificado.
+     * <p>
+     * Recorre la lista de mesas y devuelve el identificador de la primera mesa disponible
+     * que tiene suficiente capacidad para el número de personas. Devuelve {@code 0} si no
+     * hay ninguna mesa disponible que cumpla con los requisitos.
+     * </p>
+     *
+     * @param numPeople El número de personas que deben ser acomodadas.
+     * @return El identificador de una mesa libre que puede acomodar al número de personas especificado,
+     *         o {@code 0} si no se encuentra ninguna mesa adecuada.
+     */
     public static int findFreeTable(int numPeople){
         for(Tables tableI : tables)
             if (tableI.getCapacity() >= numPeople && tableI.getStatus() == true) {
+                tableI.assignedTable();
                 return tableI.getId();
             }
         return 0;
     }
 
+    /**
+     * Obtiene el número total de mesas en el restaurante.
+     *
+     * @return El número total de mesas en el restaurante.
+     */
     public int getNumTables() {
         return numTables;
     }
 
+    /**
+     * Obtiene la fecha asociada al restaurante.
+     *
+     * @return La fecha asociada al restaurante.
+     */
     public static String getDate(){
         return date;
+    }
+
+    /**
+     * Permite obtener el vector desde otra clase para poder ser modificado.
+     * @return El vector con las mesas creadas.
+     */
+    public static Vector<Tables> getTables() {
+        return tables;
     }
 
 }

@@ -24,6 +24,8 @@ public class Reservation {
      * Mesa asignada a la reserva.
      */
     private int assignedTable;
+
+    private int numPeople;
     /**
      * Lista estática de todas las reservas.
      * Se utiliza para gestionar y almacenar todas las reservas realizadas.
@@ -39,13 +41,13 @@ public class Reservation {
      * @param assignedTable La mesa asignada para la reserva.
      */
 
-    public Reservation(String nameCustomer, String hour, String date, int assignedTable) {
+    public Reservation(String nameCustomer, String hour, String date, int assignedTable, int numPeople) {
         this.nameCustomer = nameCustomer;
         this.hour = hour;
         this.date = date;
         this.assignedTable = assignedTable;
+        this.numPeople = numPeople;
         reservations.add(this);
-        mostrarReservas();
     }
     /**
      * Obtiene la hora de la reserva.
@@ -98,6 +100,15 @@ public class Reservation {
     }
 
     /**
+     *Establece el nuevo nombre del cliente.
+     * @param nameCustomer Recibe el nuevo nombre del cliente.
+     */
+
+    public void setNameCustomer(String nameCustomer){
+        this.nameCustomer = nameCustomer;
+    }
+
+    /**
      * Obtiene la mesa asignada para la reserva.
      *
      * @return La mesa asignada.
@@ -107,32 +118,51 @@ public class Reservation {
         return assignedTable;
     }
 
+    /**
+     * Obtiene la lista de reservas actuales.
+     *
+     * <p>Este método devuelve una referencia al vector que contiene todas las reservas actuales en el sistema.</p>
+     *
+     * @return Un {@code Vector} de objetos {@code Reservation} que representa todas las reservas.
+     */
     public static Vector<Reservation> getReservations(){
         return reservations;
     }
 
-
     /**
-     * Confirma la reserva. Este método no está implementado en esta versión.
+     * Establece la mesa asignada para una reserva.
+     *
+     * <p>Este método asigna un número de mesa a la reserva actual. El número de mesa debe ser un valor válido
+     * dentro del rango de mesas disponibles en el restaurante.</p>
+     *
+     * @param assignedTable El número de mesa a asignar. Debe ser un valor entero que represente una mesa válida.
      */
-
-    public void confirmReservation() {}
-
-    /**
-     * Cancela la reserva. Este método no está implementado en esta versión.
-     */
-
-    public void cancelReservation() {}
-
-    /**
-     * Muestra una lista de las reservas.
-     */
-
-    public static void mostrarReservas() {
-        for (Reservation reserva : reservations) {
-            System.out.println("Reserva: " + reserva.nameCustomer + ", Hora: " + reserva.hour +
-                    ", Fecha: " + reserva.date + ", Mesa asignada: " + reserva.assignedTable);
-        }
-
+    public void setAssignedTable(int assignedTable){
+        this.assignedTable = assignedTable;
     }
+
+    /**
+     * Obtiene el número de personas para la reserva.
+     *
+     * <p>Este método devuelve el número de personas para la reserva actual. El número de personas representa
+     * la cantidad de personas que asistirán a la reserva.</p>
+     *
+     * @return Un entero que representa el número de personas en la reserva.
+     */
+    public int getNumPeople(){
+        return numPeople;
+    }
+
+    /**
+     * Establece el número de personas para la reserva.
+     *
+     * <p>Este método establece el número de personas para la reserva actual. El número de personas debe ser un valor entero
+     * positivo que indica cuántas personas asistirán a la reserva.</p>
+     *
+     * @param numPeople El número de personas para la reserva. Debe ser un valor entero positivo.
+     */
+    public void setNumPeople(int numPeople){
+        this.numPeople = numPeople;
+    }
+
 }

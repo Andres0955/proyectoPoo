@@ -56,10 +56,21 @@ public class Customer {
         return name;
     }
 
+    /**
+     * Modifica el nombre del cliente de un objeto Customer existente.
+     * @param name nuevo nombre del cliente.
+     */
 
-    public void registerCustomer(){}
+    public void setName(String name){
+        this.name = name;
+    }
 
-    public void updateData(){}
-
+    /**
+     * Modifica el numero de telefono del cliente de un obejto Customer existente.
+     * @param phoneNumber
+     */
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
 
 }

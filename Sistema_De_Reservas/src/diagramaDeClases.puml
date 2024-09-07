@@ -2,105 +2,112 @@
 'https://plantuml.com/sequence-diagram
 skinparam classAttributeIconSize 0
 !theme spacelab
-class Restaurant{
-    -numTables: int
-    -date: String
-    -Vector<Tables> tables
 
-    +Restaurant(int numTables, String date)
-    +findFreeTable(int numPeople)
-    +getNumTables()
-    +getDate()
-    +getTables()
+package logic{
+    class Restaurant{
+        -numTables: int
+        -date: String
+        -Vector<Tables> tables
+
+        +Restaurant(int numTables, String date)
+        +findFreeTable(int numPeople)
+        +getNumTables()
+        +getDate()
+        +getTables()
+    }
+
+    class Reservation{
+        -nameCustomer: String
+        -hour: String
+        -date: String
+        -assignedTable: int
+        -numPeople: int
+        -Vector<Reservation> reservations
+
+        +Reservation(String nameCustomer, String hour,
+        String date, int assignedTable, int numPeople)
+        +getHour()
+        +setHour(String hour)
+        +getDate()
+        +setDate(String date)
+        +getNameCustomer()
+        +setNameCustomer(String nameCustomer)
+        +getAssignedTable()
+        +getReservations()
+        +setAssignedTable(int assignedTable)
+        +getNumPeople()
+        +setNumPeople(int numPeople)
+    }
+
+    class Tables{
+        -id: int
+        -capacity: int
+        -status: boolean
+
+        +Tables(int id, int capacity)
+        +getId()
+        +setId(int id)
+        +getCapacity()
+        +setCapacity(int capacity)
+        +getStatus()
+        +assignedTable()
+        +releaseTable()
+    }
+
+    class Customer{
+        -name: String
+        -phoneNumber: String
+        +Vector<Customer> customers
+
+        +Customer(String name, String phoneNumber)
+        +getName()
+        +setName(String name)
+        +setPhoneNumber(String phoneNumber)
+    }
+
+    class Receptionist{
+        -name: String
+
+        +getName()
+        +setName(String name)
+        +registerReservations()
+        +consulReservationsToday()
+        +showAllReservations()
+        +cancelReservations()
+        +modifyReservations()
+    }
 }
 
-class Reservation{
-    -nameCustomer: String
-    -hour: String
-    -date: String
-    -assignedTable: int
-    -numPeople: int
-    -Vector<Reservation> reservations
+package igu{
 
-    +Reservation(String nameCustomer, String hour,
-    String date, int assignedTable, int numPeople)
-    +getHour()
-    +setHour(String hour)
-    +getDate()
-    +setDate(String date)
-    +getNameCustomer()
-    +setNameCustomer(String nameCustomer)
-    +getAssignedTable()
-    +getReservations()
-    +setAssignedTable(int assignedTable)
-    +getNumPeople()
-    +setNumPeople(int numPeople)
-}
+    class Main{
+        +main(String[] args)
+        +menuControl(int userChoice)
+    }
 
-class Tables{
-    -id: int
-    -capacity: int
-    -status: boolean
-
-    +Tables(int id, int capacity)
-    +getId()
-    +setId(int id)
-    +getCapacity()
-    +setCapacity(int capacity)
-    +getStatus()
-    +assignedTable()
-    +releaseTable()
-}
-
-class Customer{
-    -name: String
-    -phoneNumber: String
-    +Vector<Customer> customers
-
-    +Customer(String name, String phoneNumber)
-    +getName()
-    +setName(String name)
-    +setPhoneNumber(String phoneNumber)
-}
-
-class Receptionist{
-    -name: String
-
-    +getName()
-    +setName(String name)
-    +registerReservations()
-    +consulReservationsToday()
-    +showAllReservations()
-    +cancelReservations()
-    +modifyReservations()
-}
-
-class Main{
-    +main(String[] args)
-    +menuControl(int userChoice)
-}
-
-class Interface{
-    +Vector<Customer> customers
-    +receptionistData()
-    +tableDate()
-    +todayData()
-    +mainMenu(String name)
-    +iguRegisterReservation()
-    +iguConsulReservation(Vector<Reservation> reservations, String date)
-    +iguShowReservations(Vector<Reservation> reservations)
-    +iguCancelReservation(Vector<Reservation> reservations)
-    +iguModifyReservation(Vector<Reservation> reservations)
+    class Interface{
+        +Vector<Customer> customers
+        +receptionistData()
+        +tableDate()
+        +todayData()
+        +mainMenu(String name)
+        +iguRegisterReservation()
+        +iguConsulReservation(Vector<Reservation> reservations, String date)
+        +iguShowReservations(Vector<Reservation> reservations)
+        +iguCancelReservation(Vector<Reservation> reservations)
+        +iguModifyReservation(Vector<Reservation> reservations)
+    }
 }
 
 Restaurant *-- Tables
+Reservation --o Restaurant
 Reservation o-- Tables
 Reservation o-- Customer
-Receptionist --- Reservation
-Main --* Interface : usa
+Receptionist *-- Reservation
+Main *-- Interface
 Interface o-- Restaurant
 Interface o-- Reservation
 Interface o-- Customer
-Interface -- Receptionist : usa
+Interface -- Receptionist
 
 @enduml

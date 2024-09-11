@@ -66,7 +66,7 @@ public class Customer {
     }
 
     /**
-     * Modifica el numero de telefono del cliente de un obejto Customer existente.
+     * Modifica el numero de telefono del cliente de un objeto Customer existente.
      * @param phoneNumber
      */
     public void setPhoneNumber(String phoneNumber){

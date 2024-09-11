@@ -55,6 +55,10 @@ public class Main {
             case 5:
                 receptionist.modifyReservation();
                 break;
+            case 6:
+                receptionist.showFreeTables();
+                break;
+            default:
         }
 
     }

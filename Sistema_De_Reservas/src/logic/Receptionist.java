@@ -96,4 +96,15 @@ public class Receptionist {
     public void modifyReservation(){
         interface2.iguModifyReservation(Reservation.getReservations());
     }
+
+    /**
+     * Muestra en la consola una lista de mesas libres utilizando el método {@code iguShowFreeTables}.
+     *
+     * Este método obtiene la lista de mesas del restaurante a través de {@code Restaurant.getTables()},
+     * y luego pasa esta lista al método {@code iguShowFreeTables} de la interfaz {@code interface2}.
+     * Se espera que {@code iguShowFreeTables} imprima en la consola la información de las mesas que están libres.
+     */
+    public void showFreeTables(){
+        interface2.iguShowFreeTables(Restaurant.getTables());
+    }
 }

@@ -141,28 +141,74 @@ public class Interface {
     public void iguRegisterReservation(){
         Scanner entrance = new Scanner(System.in);
         String name;
-        String phoneNumber;
-        String hour;
-        String date;
-        int numPeople;
+        String phoneNumber = "ERROR";
+        String hour = "ERROR";
+        String date = "ERROR";
+        int numPeople = 0;
         int assignedTable;
+        boolean checkPhone = false;
+        boolean checkHour = false;
+        boolean checkDate = false;
+        boolean checkNumPeople = false;
 
         System.out.println("========================================");
         System.out.println("   REGISTRAR RESERVACION  ");
         System.out.println("========================================");
         System.out.print("Ingrese el nombre del cliente: ");
         name = entrance.nextLine();
-        System.out.print("Ingrese el numero de telefono del cliente: ");
-        phoneNumber = entrance.nextLine();
+        while(checkPhone == false){
+            System.out.print("Ingrese el numero de telefono del cliente: ");
+            phoneNumber = entrance.nextLine();
+            if(phoneNumber.length() == 10){
+                checkPhone = true;
+            }else{
+                System.out.println("✘ Ingrese un numero valido.");
+            }
+        }
+
         //customers.add(new Customer(name, phoneNumber));
         Customer customer = new Customer(name, phoneNumber);
+        while(checkHour == false){
+            System.out.print("Ingrese la hora(ejemplo: 02:30 pm): ");
+            hour = entrance.nextLine();
+            if(hour.length() == 8){
+                checkHour = true;
+            }else{
+                System.out.println("✘ Ingrese una hora valida, como se muestra en el ejemplo.");
+            }
 
-        System.out.print("Ingrese la hora(ejemplo: 02:30 pm): ");
-        hour = entrance.nextLine();
-        System.out.print("Ingrese la fecha(ejemplo: 2024-09-02): ");
-        date = entrance.nextLine();
-        System.out.print("Ingrese el numero de personas: ");
-        numPeople = entrance.nextInt();
+        }
+
+        while(checkDate == false){
+            System.out.print("Ingrese la fecha(ejemplo: 2024-09-02): ");
+            date = entrance.nextLine();
+            if(date.length() == 10){
+                checkDate = true;
+            }else {
+                System.out.println("✘ Ingrese una fecha valida, como se muestra en el ejemplo.");
+            }
+        }
+
+        while (checkNumPeople == false){
+
+            try {
+                System.out.print("Ingrese el numero de personas: ");
+                numPeople = entrance.nextInt();
+                if (numPeople > 0){
+                    checkNumPeople = true;
+                }else {
+                    System.out.println("✘ Ingrese un numero de personas valido.");
+                    
+                }
+            }catch(InputMismatchException e){
+                System.out.println("✘ Por favor ingrese un numero.");
+                entrance.next();
+            }
+        }
+
+
+
+
         assignedTable = Restaurant.findFreeTable(numPeople);
         if(assignedTable != 0){
             Reservation reservation = new Reservation(name, hour, date, assignedTable, numPeople);
@@ -200,7 +246,6 @@ public class Interface {
                 System.out.println("----------------------------------------");
                 System.out.println(" Id:     " + reservationI.getIdReservation());
                 System.out.println(" Cliente:     " + reservationI.getNameCustomer());
-                System.out.println(" Telefono:     " + reservationI.getNameCustomer());
                 System.out.println(" Hora:        " + reservationI.getHour());
                 System.out.println(" Fecha:       " + reservationI.getDate());
                 System.out.println(" Numero de personas:    " + reservationI.getNumPeople());
@@ -211,7 +256,7 @@ public class Interface {
         }
 
         if (anyReservation == false) {
-            System.out.println(" No hay reservas para la fecha " + date);
+            System.out.println(" ✘ No hay reservas para la fecha " + date);
         }
 
         System.out.println("========================================");
@@ -246,7 +291,7 @@ public class Interface {
         }
 
         if (anyReservation == false) {
-            System.out.println(" No hay reservas. ");
+            System.out.println(" ✘ No hay reservas. ");
         }
 
         System.out.println("========================================");
@@ -264,9 +309,10 @@ public class Interface {
  * */
     public void iguCancelReservation(Vector<Reservation> reservations){
         String name;
-        String date;
+        int idReservation = 0;
         int assignedTable;
         boolean found = false;
+        boolean checkId = false;
         Iterator<Reservation> iterator = reservations.iterator();
         Vector<Tables> modifyTables = Restaurant.getTables();
         Tables modifyTable;
@@ -278,17 +324,32 @@ public class Interface {
         System.out.println("========================================");
         System.out.print("Ingrese el nombre del cliente: ");
         name = entrance.next();
-        System.out.print("Ingrese la fecha de la reserva(ejemplo: 05/07/2024): ");
-        date = entrance.next();
-        System.out.print("Ingrese el numero de la mesa asignada(ejemplo: 2): ");
-        assignedTable = entrance.nextInt();
+
+        while (checkId == false){
+            try{
+                System.out.print("Ingrese el Id de la reserva: ");
+                idReservation = entrance.nextInt();
+                if(idReservation > 0){
+                    checkId = true;
+                }else {
+                    System.out.println("✘ El id de la reserva es un numero mayor que 0.");
+                }
+            }catch(InputMismatchException e){
+                System.out.println("✘ Ingrese un numero.");
+                entrance.next();
+            }
+
+        }
+
 
         while(iterator.hasNext() == true) {
             Reservation reservationI = iterator.next();
-            if (reservationI.getNameCustomer().equals(name) && reservationI.getDate().equals(date) && reservationI.getAssignedTable() == assignedTable) {
-                iterator.remove();
+            if (reservationI.getNameCustomer().equals(name) && reservationI.getIdReservation() == idReservation){
+                assignedTable = reservationI.getAssignedTable();
                 modifyTable = modifyTables.get(assignedTable);
+                System.out.println(modifyTable);
                 modifyTable.releaseTable();
+                iterator.remove();
                 found = true;
                 System.out.println("========================================");
                 System.out.println("   RESERVA CANCELADA EXITOSAMENTE ");
@@ -313,9 +374,12 @@ public class Interface {
     public void iguModifyReservation(Vector<Reservation> reservations){
         String name, newNameCustomer;
         String date, newDate;
-        int assignedTable, newNumPeople, newAssignedTable;
+        int newNumPeople, newAssignedTable;
+        int assignedTable = 0;
         boolean found = false;
         boolean check = false;
+        boolean checkId = false;
+        int idReservation = 0;
         byte userChoice;
         String newHour, newPhoneNumber;
         Vector<Tables> modifyTables = Restaurant.getTables();
@@ -323,14 +387,27 @@ public class Interface {
 
         System.out.print("Ingrese el nombre del cliente: ");
         name = entrance.next();
-        System.out.print("Ingrese la fecha de la reserva(ejemplo: 05/07/2024): ");
-        date = entrance.next();
-        System.out.print("Ingrese el numero de la mesa asignada(ejemplo: 2): ");
-        assignedTable = entrance.nextInt();
+
+        while (checkId == false){
+            try{
+                System.out.print("Ingrese el Id de la reserva: ");
+                idReservation = entrance.nextInt();
+                if(idReservation > 0){
+                    checkId = true;
+                }else {
+                    System.out.println("✘ El id de la reserva es un numero mayor que 0.");
+                }
+            }catch(InputMismatchException e){
+                System.out.println("✘ Ingrese un numero.");
+                entrance.next();
+            }
+
+        }
 
         for(Reservation reservationI : reservations){
-            if(reservationI.getNameCustomer().equals(name) && reservationI.getDate().equals(date) && reservationI.getAssignedTable() == assignedTable){
+            if(reservationI.getNameCustomer().equals(name) && reservationI.getIdReservation() == idReservation){
                 do {
+                    try {
                     System.out.println("╔══════════════════════════════════════╗");
                     System.out.println("║  ¿Que informacion desea modificar?   ║");
                     System.out.println("╠══════════════════════════════════════╣");
@@ -342,56 +419,61 @@ public class Interface {
                     System.out.print("Seleccione una opción: ");
                     userChoice = entrance.nextByte();
 
-                    switch(userChoice){
-                        case 1:
-                            System.out.print("Ingrese el nuevo nombre: ");
-                            entrance.nextLine();
-                            newNameCustomer = entrance.nextLine();
-                            reservationI.setNameCustomer(newNameCustomer);
-                            System.out.println("========================================");
-                            System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
-                            System.out.println("========================================");
-                            check = true;
-                            break;
-                        case 2:
-                            System.out.print("Ingrese la hora: ");
-                            entrance.nextLine();
-                            newHour = entrance.nextLine();
-                            reservationI.setHour(newHour);
-                            System.out.println("========================================");
-                            System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
-                            System.out.println("========================================");
-                            check = true;
-                            break;
-                        case 3:
-                            System.out.print("Ingrese la nueva fecha: ");
-                            entrance.nextLine();
-                            newDate = entrance.nextLine();
-                            reservationI.setDate(newDate);
-                            System.out.println("========================================");
-                            System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
-                            System.out.println("========================================");
-                            check = true;
-                            break;
-                        case 4:
-                            System.out.print("Ingrese el numero de personas: ");
-                            newNumPeople = entrance.nextInt();
-                            if(reservationI.getNumPeople() < newNumPeople){
+                        switch (userChoice) {
+                            case 1:
+                                System.out.print("Ingrese el nuevo nombre: ");
+                                entrance.nextLine();
+                                newNameCustomer = entrance.nextLine();
+                                reservationI.setNameCustomer(newNameCustomer);
+                                System.out.println("========================================");
+                                System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
+                                System.out.println("========================================");
+                                check = true;
+                                break;
+                            case 2:
+                                System.out.print("Ingrese la hora: ");
+                                entrance.nextLine();
+                                newHour = entrance.nextLine();
+                                reservationI.setHour(newHour);
+                                System.out.println("========================================");
+                                System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
+                                System.out.println("========================================");
+                                check = true;
+                                break;
+                            case 3:
+                                System.out.print("Ingrese la nueva fecha: ");
+                                entrance.nextLine();
+                                newDate = entrance.nextLine();
+                                reservationI.setDate(newDate);
+                                System.out.println("========================================");
+                                System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
+                                System.out.println("========================================");
+                                check = true;
+                                break;
+                            case 4:
+                                System.out.print("Ingrese el numero de personas: ");
+                                newNumPeople = entrance.nextInt();
+                                if (reservationI.getNumPeople() < newNumPeople) {
+                                    reservationI.setNumPeople(newNumPeople);
+                                    modifyTable = modifyTables.get(assignedTable);
+                                    modifyTable.releaseTable();
+                                    newAssignedTable = Restaurant.findFreeTable(newNumPeople);
+                                    reservationI.setAssignedTable(newAssignedTable);
+                                }
                                 reservationI.setNumPeople(newNumPeople);
-                                modifyTable = modifyTables.get(assignedTable);
-                                modifyTable.releaseTable();
-                                newAssignedTable = Restaurant.findFreeTable(newNumPeople);
-                                reservationI.setAssignedTable(newAssignedTable);
-                            }
-                            reservationI.setNumPeople(newNumPeople);
-                            System.out.println("========================================");
-                            System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
-                            System.out.println("========================================");
-                            check = true;
-                            break;
-                        default:
-                            System.out.println("✘ Opción no válida. Intente nuevamente.");
+                                System.out.println("========================================");
+                                System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
+                                System.out.println("========================================");
+                                check = true;
+                                break;
+                            default:
+                                System.out.println("✘ Opción no válida. Intente nuevamente.");
+                        }
+                    }catch (InputMismatchException e) {
+                        System.out.println("✘ opción no válida. Por favor, ingrese un número.");
+                        entrance.next();
                     }
+
                 }while(check == false);
 
                 found = true;
@@ -405,5 +487,36 @@ public class Interface {
             System.out.println("=================================================================");
         }
     }
+    /**
+     * Muestra en la consola una lista de mesas libres a partir de una lista de mesas proporcionada.
+     *
+     * Este método recorre una colección de objetos {@code Tables} y muestra la información de cada mesa
+     * que tiene el estado libre (representado por {@code true}). La información que se imprime incluye el ID
+     * y la capacidad de la mesa.
+     *
+     * El formato de la salida en la consola es el siguiente:
+     *
+     * ----------------------------------------
+     *  Id de la mesa:     [ID de la mesa]
+     *  Capacidad de la mesa:     [Capacidad de la mesa]
+     * ----------------------------------------
+     *
+     * @param tables Una colección de objetos {@code Tables} que representa todas las mesas disponibles.
+     *               Cada objeto de la colección debe tener un método {@code getStatus()} que devuelve un
+     *               valor booleano que indica si la mesa está libre, y métodos {@code getId()} y
+     *               {@code getCapacity()} para obtener el ID y la capacidad de la mesa, respectivamente.
+     *
+     * @see Tables
+     */
+    public void iguShowFreeTables(Vector<Tables> tables) {
+        for(Tables tableI : tables){
+            if(tableI.getStatus() == true){
+                System.out.println("----------------------------------------");
+                System.out.println(" Id de la mesa:     " + tableI.getId());
+                System.out.println(" Capacidad de la mesa:     " + tableI.getCapacity());
 
+                System.out.println("----------------------------------------");
+            }
+        }
+    }
 }

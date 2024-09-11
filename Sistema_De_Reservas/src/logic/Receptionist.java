@@ -1,8 +1,6 @@
 package logic;
 
-import igu.*;
-
-import java.util.Vector;
+import gui.*;
 
 /**
  * Representa un recepcionista en el sistema de reservas del restaurante.

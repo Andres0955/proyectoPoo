@@ -1,5 +1,6 @@
 package logic;
 import java.util.Vector;
+import java.time.LocalDate;
 
 /**
  * Representa un restaurante con una colección de mesas.
@@ -50,6 +51,12 @@ public class Restaurant {
             int capacity = capacities[i % 3];
             tables.add(new Tables(i + 1, capacity));
         }
+    }
+
+    public static String todayDate(){
+        LocalDate currentDate = LocalDate.now();
+        date = currentDate.toString();
+        return currentDate.toString();
     }
 
     /**

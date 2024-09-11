@@ -8,6 +8,9 @@ import java.util.Vector;
  */
 
 public class Reservation {
+
+    private static int idCounter = 0;
+    private int idReservation;
     /**
      * Nombre del cliente que hizo la reserva.
      */
@@ -42,12 +45,17 @@ public class Reservation {
      */
 
     public Reservation(String nameCustomer, String hour, String date, int assignedTable, int numPeople) {
+        this.idReservation = ++idCounter;
         this.nameCustomer = nameCustomer;
         this.hour = hour;
         this.date = date;
         this.assignedTable = assignedTable;
         this.numPeople = numPeople;
         reservations.add(this);
+    }
+
+    public int getIdReservation(){
+        return idReservation;
     }
     /**
      * Obtiene la hora de la reserva.

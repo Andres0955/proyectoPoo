@@ -244,7 +244,7 @@ public class Interface {
         for (Reservation reservationI : reservations) {
             if (reservationI.getDate().equals(date)) {
                 System.out.println("----------------------------------------");
-                System.out.println(" Id:     " + reservationI.getIdReservation());
+                System.out.println(" Id de la reserva:     " + reservationI.getIdReservation());
                 System.out.println(" Cliente:     " + reservationI.getNameCustomer());
                 System.out.println(" Hora:        " + reservationI.getHour());
                 System.out.println(" Fecha:       " + reservationI.getDate());
@@ -280,7 +280,7 @@ public class Interface {
 
         for (Reservation reservationI : reservations) {
                 System.out.println("----------------------------------------");
-            System.out.println(" Id:     " + reservationI.getIdReservation());
+            System.out.println(" Id de las reserva:     " + reservationI.getIdReservation());
                 System.out.println(" Cliente:     " + reservationI.getNameCustomer());
                 System.out.println(" Hora:        " + reservationI.getHour());
                 System.out.println(" Fecha:       " + reservationI.getDate());
@@ -346,15 +346,13 @@ public class Interface {
             Reservation reservationI = iterator.next();
             if (reservationI.getNameCustomer().equals(name) && reservationI.getIdReservation() == idReservation){
                 assignedTable = reservationI.getAssignedTable();
-                modifyTable = modifyTables.get(assignedTable);
-                System.out.println(modifyTable);
+                modifyTable = modifyTables.get(assignedTable-1);
                 modifyTable.releaseTable();
                 iterator.remove();
                 found = true;
                 System.out.println("========================================");
                 System.out.println("   RESERVA CANCELADA EXITOSAMENTE ");
                 System.out.println("========================================");
-                break;
             }
         }
 
@@ -372,18 +370,13 @@ public class Interface {
      * @param reservations Una lista de reservas en el sistema, que se utilizará para buscar y modificar la reserva deseada.
      */
     public void iguModifyReservation(Vector<Reservation> reservations){
-        String name, newNameCustomer;
-        String date, newDate;
-        int newNumPeople, newAssignedTable;
-        int assignedTable = 0;
+        String name;
         boolean found = false;
         boolean check = false;
         boolean checkId = false;
         int idReservation = 0;
         byte userChoice;
-        String newHour, newPhoneNumber;
-        Vector<Tables> modifyTables = Restaurant.getTables();
-        Tables modifyTable;
+        String newPhoneNumber;
 
         System.out.print("Ingrese el nombre del cliente: ");
         name = entrance.next();
@@ -421,49 +414,19 @@ public class Interface {
 
                         switch (userChoice) {
                             case 1:
-                                System.out.print("Ingrese el nuevo nombre: ");
-                                entrance.nextLine();
-                                newNameCustomer = entrance.nextLine();
-                                reservationI.setNameCustomer(newNameCustomer);
-                                System.out.println("========================================");
-                                System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
-                                System.out.println("========================================");
+                                modifyName(reservationI);
                                 check = true;
                                 break;
                             case 2:
-                                System.out.print("Ingrese la hora: ");
-                                entrance.nextLine();
-                                newHour = entrance.nextLine();
-                                reservationI.setHour(newHour);
-                                System.out.println("========================================");
-                                System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
-                                System.out.println("========================================");
+                                modifyHour(reservationI);
                                 check = true;
                                 break;
                             case 3:
-                                System.out.print("Ingrese la nueva fecha: ");
-                                entrance.nextLine();
-                                newDate = entrance.nextLine();
-                                reservationI.setDate(newDate);
-                                System.out.println("========================================");
-                                System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
-                                System.out.println("========================================");
+                                modifyDate(reservationI);
                                 check = true;
                                 break;
                             case 4:
-                                System.out.print("Ingrese el numero de personas: ");
-                                newNumPeople = entrance.nextInt();
-                                if (reservationI.getNumPeople() < newNumPeople) {
-                                    reservationI.setNumPeople(newNumPeople);
-                                    modifyTable = modifyTables.get(assignedTable);
-                                    modifyTable.releaseTable();
-                                    newAssignedTable = Restaurant.findFreeTable(newNumPeople);
-                                    reservationI.setAssignedTable(newAssignedTable);
-                                }
-                                reservationI.setNumPeople(newNumPeople);
-                                System.out.println("========================================");
-                                System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
-                                System.out.println("========================================");
+                                modifyNumPeople(reservationI);
                                 check = true;
                                 break;
                             default:
@@ -486,6 +449,120 @@ public class Interface {
             System.out.println("   NO SE ENCONTRO NINGUNA RESERVA CON LOS DATOS SUMINISTRADOS ");
             System.out.println("=================================================================");
         }
+    }
+    /**
+     * Modifica el nombre del cliente en una reserva existente.
+     *
+     * Este método solicita al usuario que ingrese un nuevo nombre para el cliente,
+     * lee la entrada del usuario y actualiza el nombre del cliente en el objeto
+     * de reserva proporcionado.
+     *
+     * <p>El método realiza los siguientes pasos:</p>
+     * <ol>
+     *     <li>Solicita al usuario que ingrese el nuevo nombre del cliente.</li>
+     *     <li>Lee la entrada del usuario.</li>
+     *     <li>Actualiza el nombre del cliente en el objeto de reserva.</li>
+     *     <li>Imprime un mensaje de confirmación indicando que la modificación se
+     *         ha realizado exitosamente.</li>
+     */
+    public void modifyName(Reservation reservationI){
+        System.out.print("Ingrese el nuevo nombre del cliente: ");
+        entrance.nextLine();
+        String newNameCustomer = entrance.nextLine();   
+        reservationI.setNameCustomer(newNameCustomer);
+        System.out.println("========================================");
+        System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
+        System.out.println("========================================");
+    }
+    /**
+     * Modifica la hora en una reserva existente.
+     *
+     * Este método solicita al usuario que ingrese una nueva hora para la reserva,
+     * lee la entrada del usuario y actualiza la hora en el objeto de reserva
+     * proporcionado.
+     *
+     * <p>El método realiza los siguientes pasos:</p>
+     * <ol>
+     *     <li>Solicita al usuario que ingrese la nueva hora.</li>
+     *     <li>Lee la entrada del usuario.</li>
+     *     <li>Actualiza la hora en el objeto de reserva.</li>
+     *     <li>Imprime un mensaje de confirmación indicando que la modificación se
+     *         ha realizado exitosamente.</li>
+     * </ol>
+     **/
+    public void modifyHour(Reservation reservationI){
+        System.out.print("Ingrese la nueva hora: ");
+        entrance.nextLine();
+        String newHour = entrance.nextLine();
+        reservationI.setHour(newHour);
+        System.out.println("========================================");
+        System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
+        System.out.println("========================================");
+    }
+    /**
+     * Modifica la fecha en una reserva existente.
+     *
+     * Este método solicita al usuario que ingrese una nueva fecha para la reserva,
+     * lee la entrada del usuario y actualiza la fecha en el objeto de reserva
+     * proporcionado. La fecha debe ser ingresada en el formato "aaaa-mm-dd".
+     *
+     * <p>El método realiza los siguientes pasos:</p>
+     * <ol>
+     *     <li>Solicita al usuario que ingrese la nueva fecha en el formato "aaaa-mm-dd".</li>
+     *     <li>Lee la entrada del usuario.</li>
+     *     <li>Actualiza la fecha en el objeto de reserva.</li>
+     *     <li>Imprime un mensaje de confirmación indicando que la modificación se
+     *         ha realizado exitosamente.</li>
+     * </ol>
+     */
+    public void modifyDate(Reservation reservationI){
+        System.out.print("Ingrese la nueva fecha(ejemplo: 2024-09-02): ");
+        entrance.nextLine();
+        String newDate = entrance.nextLine();
+        reservationI.setDate(newDate);
+        System.out.println("========================================");
+        System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
+        System.out.println("========================================");
+    }
+    /**
+     * Modifica el número de personas en una reserva existente y ajusta la mesa asignada si es necesario.
+     *
+     * Este método solicita al usuario que ingrese un nuevo número de personas para la reserva,
+     * y actualiza el número de personas en el objeto de reserva. Si el nuevo número de personas
+     * es mayor que el número actual, se realiza una reasignación de mesa:
+     * <ul>
+     *     <li>Libera la mesa actualmente asignada.</li>
+     *     <li>Busca una nueva mesa adecuada para el nuevo número de personas.</li>
+     *     <li>Actualiza la mesa asignada en la reserva.</li>
+     * </ul>
+     *
+     * <p>El método realiza los siguientes pasos:</p>
+     * <ol>
+     *     <li>Solicita al usuario que ingrese el nuevo número de personas.</li>
+     *     <li>Compara el nuevo número de personas con el número actual.</li>
+     *     <li>Si el nuevo número de personas es mayor, libera la mesa asignada y busca una nueva mesa adecuada.</li>
+     *     <li>Actualiza el número de personas y la mesa asignada en el objeto de reserva.</li>
+     *     <li>Imprime un mensaje de confirmación indicando que la modificación se
+     *         ha realizado exitosamente.</li>
+     * </ol>
+     */
+    public void modifyNumPeople(Reservation reservationI){
+        Vector<Tables> modifyTables = Restaurant.getTables();
+        int assignedTable = reservationI.getAssignedTable();
+
+        System.out.print("Ingrese el numero de personas: ");
+        int newNumPeople = entrance.nextInt();
+        if (reservationI.getNumPeople() > newNumPeople) {
+            reservationI.setNumPeople(newNumPeople);
+            Tables modifyTable = modifyTables.get(assignedTable-1);
+            modifyTable.releaseTable();
+            int newAssignedTable = Restaurant.findFreeTable(newNumPeople);
+            reservationI.setAssignedTable(newAssignedTable);
+        }
+        reservationI.setNumPeople(newNumPeople);
+        System.out.println("========================================");
+        System.out.println("   MODIFICACION REALIZADA EXITOSAMENTE ");
+        System.out.println("========================================");
     }
     /**
      * Muestra en la consola una lista de mesas libres a partir de una lista de mesas proporcionada.
